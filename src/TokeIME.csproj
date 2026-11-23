@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7E3A9D70-5A7E-4E5E-9D13-24F1B8C7A921}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>TokeIME</RootNamespace>
+    <AssemblyName>TokeIME</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <LangVersion>5</LangVersion>
+    <ApplicationIcon>TrayIcon.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Web.Extensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppSettings.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="AutoAddPromptForm.cs" />
+    <Compile Include="CustomHotkeyDialog.cs" />
+    <Compile Include="HotkeyDefinition.cs" />
+    <Compile Include="KeyboardLock.cs" />
+    <Compile Include="NativeMethods.cs" />
+    <Compile Include="SoftwareSearchForm.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="SettingsForm.cs" />
+    <Compile Include="StartupManager.cs" />
+    <Compile Include="ToastForm.cs" />
+    <Compile Include="TrayApplication.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TrayIcon.ico">
+      <LogicalName>TokeIME.TrayIcon.ico</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TrayIconActive.ico">
+      <LogicalName>TokeIME.TrayIconActive.ico</LogicalName>
+    </EmbeddedResource>
+    <None Include="app.manifest" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

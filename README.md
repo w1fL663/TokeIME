@@ -1,0 +1,52 @@
+# TokeIME
+
+
+
+Official TokeIME build with an English user interface.
+
+TokeIME is a Windows tray utility that blocks selected keyboard shortcuts while a configured program is in the foreground. It can block input-method switching shortcuts or any custom shortcut you define.
+
+## Features
+
+- Automatic effect when a configured program is in the foreground
+- Add currently running programs from an icon list
+- Global search across running programs, Start Menu, Steam, Epic, and installed applications
+- Desktop search for shortcuts and EXEs, including desktop folders
+- Custom blocked shortcuts with direct key capture, including Tab
+- Global effect toggle: `Ctrl + Alt + F12`
+- Separate configuration and startup entry from the Chinese build
+- Dark or light system title bars follow the normal WinForms appearance
+- No DLL injection and no network access
+
+## Run
+
+```text
+TokeIME-English.exe
+```
+
+Manual launch opens Settings. Use `--startup` for a silent tray-only launch.
+
+## Configuration
+
+Configuration directory:
+
+```text
+%APPDATA%\TokeIME\config.json
+```
+
+The Windows startup entry is stored as `TokeIME`.
+
+## Build
+
+From this folder:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\build.ps1
+```
+
+## Notes
+
+- Added programs and custom shortcuts are stored locally.
+- The locked tray icon is `TrayIconActive.ico`.
+- The normal tray and executable icon is `TrayIcon.ico`.
+- Rebuild icons with `.\tools\build-icons-from-png.ps1`.
