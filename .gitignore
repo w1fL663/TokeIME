@@ -1,0 +1,21 @@
+# Build output
+bin/
+obj/
+dist/
+*.pdb
+*.user
+
+# Visual Studio
+.vs/
+*.suo
+*.userosscache
+*.sln.docstates
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Auto-test intermediate screenshots
+docs/autotest-raw-*.png
