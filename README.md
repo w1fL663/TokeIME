@@ -1,7 +1,5 @@
 # TokeIME
 
-
-
 Official TokeIME build with an English user interface.
 
 TokeIME is a Windows tray utility that blocks selected keyboard shortcuts while a configured program is in the foreground. It can block input-method switching shortcuts or any custom shortcut you define.
@@ -21,7 +19,7 @@ TokeIME is a Windows tray utility that blocks selected keyboard shortcuts while 
 ## Run
 
 ```text
-TokeIME-English.exe
+TokeIME.exe
 ```
 
 Manual launch opens Settings. Use `--startup` for a silent tray-only launch.
@@ -49,4 +47,3 @@ powershell -ExecutionPolicy Bypass -File .\build.ps1
 - Added programs and custom shortcuts are stored locally.
 - The locked tray icon is `TrayIconActive.ico`.
 - The normal tray and executable icon is `TrayIcon.ico`.
-- Rebuild icons with `.\tools\build-icons-from-png.ps1`.
