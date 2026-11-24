@@ -33,7 +33,8 @@ namespace TokeIME
             }
 
             Text = "Add Custom Shortcut";
-            Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            Font = SystemFonts.MessageBoxFont;
+            UiAutoScale.Prepare(this);
             ClientSize = new Size(420, 300);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
@@ -43,7 +44,7 @@ namespace TokeIME
 
             Label titleLabel = new Label();
             titleLabel.Text = "Custom Blocked Shortcut";
-            titleLabel.Font = new Font("Microsoft YaHei UI", 15F, FontStyle.Bold, GraphicsUnit.Point);
+            titleLabel.Font = new Font(Font.FontFamily, Math.Min(Font.Size + 6F, 23F), FontStyle.Bold, GraphicsUnit.Point);
             titleLabel.Location = new Point(18, 16);
             titleLabel.Size = new Size(370, 34);
             Controls.Add(titleLabel);
@@ -67,7 +68,7 @@ namespace TokeIME
 
             _keyCaptureButton = new Button();
             _keyCaptureButton.Text = "Press a key";
-            _keyCaptureButton.Font = new Font("Microsoft YaHei UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            _keyCaptureButton.Font = new Font(Font.FontFamily, Math.Min(Font.Size + 2F, 16F), FontStyle.Bold, GraphicsUnit.Point);
             _keyCaptureButton.Location = new Point(20, 150);
             _keyCaptureButton.Size = new Size(378, 30);
             _keyCaptureButton.KeyDown += KeyCaptureButtonKeyDown;
@@ -81,7 +82,7 @@ namespace TokeIME
 
             _previewLabel = new Label();
             _previewLabel.Text = string.Empty;
-            _previewLabel.Font = new Font("Microsoft YaHei UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            _previewLabel.Font = new Font(Font.FontFamily, Math.Min(Font.Size + 2F, 16F), FontStyle.Bold, GraphicsUnit.Point);
             _previewLabel.ForeColor = ColorTranslator.FromHtml("#0F766E");
             _previewLabel.Location = new Point(78, 189);
             _previewLabel.Size = new Size(320, 30);
@@ -109,6 +110,7 @@ namespace TokeIME
             AcceptButton = addButton;
             CancelButton = cancelButton;
             Shown += delegate { _keyCaptureButton.Focus(); };
+            UiAutoScale.Enable(this);
         }
 
         private CheckBox CreateModifierCheckBox(string text, int x)

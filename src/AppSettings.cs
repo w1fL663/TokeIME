@@ -130,15 +130,50 @@ namespace TokeIME
                 return false;
             }
 
+            string foregroundStem = GetProcessStem(processName);
             for (int index = 0; index < Processes.Count; index++)
             {
                 if (string.Equals(Processes[index], processName, StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }
+
+                string configuredStem = GetProcessStem(Processes[index]);
+                if (foregroundStem != null &&
+                    configuredStem != null &&
+                    string.Equals(foregroundStem, configuredStem, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
             }
 
             return false;
+        }
+
+        private static string GetProcessStem(string processName)
+        {
+            string normalized = NormalizeProcessName(processName);
+            if (normalized == null)
+            {
+                return null;
+            }
+
+            string value = Path.GetFileNameWithoutExtension(normalized);
+            string[] suffixes = new string[]
+            {
+                "_launcher", "-launcher", ".launcher", " launcher", "launcher",
+                "_bootstrap", "-bootstrap", "bootstrap", "_starter", "-starter", "starter"
+            };
+            foreach (string suffix in suffixes)
+            {
+                if (value.Length > suffix.Length &&
+                    value.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
+                {
+                    value = value.Substring(0, value.Length - suffix.Length).Trim(' ', '_', '-', '.');
+                    break;
+                }
+            }
+            return value + ".exe";
         }
 
         public static string NormalizeProcessName(string value)

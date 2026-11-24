@@ -24,12 +24,13 @@ namespace TokeIME
             ExecutablePath = executablePath;
 
             Text = "TokeIME Auto Add";
+            UiAutoScale.Prepare(this);
             ClientSize = new Size(440, 154);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             ShowInTaskbar = false;
             TopMost = true;
             StartPosition = FormStartPosition.Manual;
-            Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            Font = SystemFonts.MessageBoxFont;
             BackColor = Color.White;
 
             Rectangle area = Screen.PrimaryScreen.WorkingArea;
@@ -47,14 +48,14 @@ namespace TokeIME
 
             Label titleLabel = new Label();
             titleLabel.Text = "New program detected";
-            titleLabel.Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
+            titleLabel.Font = new Font(Font.FontFamily, Math.Min(Font.Size + 1F, 16F), FontStyle.Bold, GraphicsUnit.Point);
             titleLabel.Location = new Point(76, 16);
             titleLabel.Size = new Size(340, 24);
             Controls.Add(titleLabel);
 
             Label nameLabel = new Label();
             nameLabel.Text = programName;
-            nameLabel.Font = new Font("Microsoft YaHei UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            nameLabel.Font = new Font(Font.FontFamily, Math.Min(Font.Size + 2F, 16F), FontStyle.Bold, GraphicsUnit.Point);
             nameLabel.Location = new Point(76, 42);
             nameLabel.Size = new Size(340, 24);
             Controls.Add(nameLabel);
@@ -96,6 +97,12 @@ namespace TokeIME
                 Close();
             };
             _closeTimer.Start();
+            UiAutoScale.Enable(this);
+            Shown += delegate
+            {
+                Rectangle workArea = Screen.FromControl(this).WorkingArea;
+                Location = new Point(workArea.Right - Width - 18, workArea.Bottom - Height - 18);
+            };
         }
 
         protected override bool ShowWithoutActivation

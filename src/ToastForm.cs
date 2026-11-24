@@ -24,7 +24,7 @@ namespace TokeIME
             Region = _roundedRegion;
             BackColor = backgroundColor;
             Opacity = 0D;
-            Font = new Font("Microsoft YaHei UI", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            Font = new Font(SystemFonts.MessageBoxFont.FontFamily, Math.Min(SystemFonts.MessageBoxFont.Size + 5F, 20F), FontStyle.Bold, GraphicsUnit.Point);
 
             Label label = new Label();
             label.Text = message;

@@ -71,7 +71,8 @@ namespace TokeIME
             Text = "TokeIME Settings";
             Icon = LoadApplicationIcon();
             ShowIcon = true;
-            Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            Font = SystemFonts.MessageBoxFont;
+            UiAutoScale.Prepare(this);
             ClientSize = new Size(624, 732);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
@@ -258,6 +259,7 @@ namespace TokeIME
             AcceptButton = saveButton;
             CancelButton = cancelButton;
             FormClosed += delegate { _processMenu.Dispose(); _customHotkeyMenu.Dispose(); };
+            UiAutoScale.Enable(this);
         }
 
         private static Icon LoadApplicationIcon()

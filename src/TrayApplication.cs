@@ -145,8 +145,16 @@ namespace TokeIME
                 return;
             }
 
-            if (string.IsNullOrEmpty(foregroundProcess) ||
-                _settings.IsConfiguredProcess(foregroundProcess) ||
+            if (string.IsNullOrEmpty(foregroundProcess))
+            {
+                if (_autoAddPrompt != null && !_autoAddPrompt.IsDisposed)
+                {
+                    _autoAddPrompt.Close();
+                }
+                return;
+            }
+
+            if (_settings.IsConfiguredProcess(foregroundProcess) ||
                 IsAutoAddExcludedProcess(foregroundProcess))
             {
                 return;
@@ -218,7 +226,7 @@ namespace TokeIME
             {
                 try
                 {
-                    if (process.MainWindowHandle != IntPtr.Zero)
+                    if (NativeMethods.IsMainWindowVisible(process.MainWindowHandle))
                     {
                         names.Add(process.ProcessName + ".exe");
                     }
@@ -239,21 +247,43 @@ namespace TokeIME
             string[] excluded = new string[]
             {
                 "tokeime.exe",
-                "explorer.exe",
                 "dwm.exe",
                 "shellexperiencehost.exe",
                 "startmenuexperiencehost.exe",
                 "searchhost.exe",
+                "tabtip.exe",
                 "textinputhost.exe",
                 "applicationframehost.exe",
-                "systemsettings.exe",
-                "taskmgr.exe",
+                "nvidia overlay.exe",
+                "nvcontainer.exe",
                 "lockapp.exe",
                 "logonui.exe"
             };
             foreach (string name in excluded)
             {
                 if (string.Equals(name, processName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+            return IsMaintenanceProcessName(processName);
+        }
+
+        private static bool IsMaintenanceProcessName(string processName)
+        {
+            string value = (Path.GetFileNameWithoutExtension(processName) ?? string.Empty).ToLowerInvariant();
+            string[] keywords = new string[]
+            {
+                "install", "setup", "uninstall", "unins", "update", "updater", "upgrade",
+                "repair", "patch", "maintenance", "bootstrapper", "bootstrap", "squirrel",
+                "msiexec", "wusa", "usoclient", "trustedinstaller", "tiworker",
+                "doctor", "selfcheck", "download", "downloader", "webinstaller",
+                "onlineinstaller", "appinstaller", "appinstall", "packageinstaller",
+                "installshield", "deployment", "stubinstaller"
+            };
+            foreach (string keyword in keywords)
+            {
+                if (value.IndexOf(keyword, StringComparison.Ordinal) >= 0)
                 {
                     return true;
                 }
@@ -268,7 +298,7 @@ namespace TokeIME
             {
                 try
                 {
-                    if (process.MainWindowHandle != IntPtr.Zero)
+                    if (NativeMethods.IsMainWindowVisible(process.MainWindowHandle))
                     {
                         return process.MainModule.FileName;
                     }

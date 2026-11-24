@@ -66,6 +66,21 @@ namespace TokeIME
         [DllImport("user32.dll")]
         internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
 
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool IsWindowVisible(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool IsIconic(IntPtr hWnd);
+
+        [DllImport("dwmapi.dll")]
+        internal static extern int DwmGetWindowAttribute(
+            IntPtr hWnd,
+            int attribute,
+            out int value,
+            int valueSize);
+
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         internal static extern IntPtr GetModuleHandle(string moduleName);
 
@@ -74,10 +89,33 @@ namespace TokeIME
             return (GetAsyncKeyState(virtualKey) & 0x8000) != 0;
         }
 
+        internal static bool IsMainWindowVisible(IntPtr windowHandle)
+        {
+            if (windowHandle == IntPtr.Zero ||
+                !IsWindowVisible(windowHandle) ||
+                IsIconic(windowHandle))
+            {
+                return false;
+            }
+
+            try
+            {
+                int cloaked;
+                if (DwmGetWindowAttribute(windowHandle, 14, out cloaked, sizeof(int)) == 0 && cloaked != 0)
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+            }
+            return true;
+        }
+
         internal static string GetForegroundProcessName()
         {
             IntPtr foregroundWindow = GetForegroundWindow();
-            if (foregroundWindow == IntPtr.Zero)
+            if (!IsMainWindowVisible(foregroundWindow))
             {
                 return string.Empty;
             }

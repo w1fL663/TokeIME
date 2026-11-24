@@ -42,4 +42,3 @@ powershell -ExecutionPolicy Bypass -File .\build.ps1
 ## Notes
 
 - Added programs and custom shortcuts are stored locally.
-- It runs best in Windows11 system.
