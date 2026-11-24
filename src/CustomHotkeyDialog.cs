@@ -189,12 +189,6 @@ namespace TokeIME
                 _winCheckBox.Checked,
                 _capturedVirtualKey);
 
-            if (hotkey.IsReservedToggleHotkey())
-            {
-                MessageBox.Show("Ctrl + Alt + F12 is reserved for toggling TokeIME and cannot be added again.", "TokeIME", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
             foreach (HotkeyDefinition existing in _existingHotkeys)
             {
                 if (hotkey.SameAs(existing))

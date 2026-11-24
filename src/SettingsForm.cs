@@ -171,20 +171,14 @@ namespace TokeIME
             _capsLockCheckBox = CreateShortcutCheckBox("Caps Lock", 18, 104, shortcutsGroup);
             _capsLockCheckBox.Checked = _draft.BlockCapsLock;
 
-            Label hotkeyNote = new Label();
-            hotkeyNote.Text = "Enable TokeIME: Ctrl + Alt + F12";
-            hotkeyNote.Location = new Point(18, 139);
-            hotkeyNote.Size = new Size(560, 22);
-            shortcutsGroup.Controls.Add(hotkeyNote);
-
             Label customLabel = new Label();
             customLabel.Text = "Custom Shortcuts";
-            customLabel.Location = new Point(18, 163);
+            customLabel.Location = new Point(18, 143);
             customLabel.Size = new Size(500, 22);
             shortcutsGroup.Controls.Add(customLabel);
 
             _customHotkeyList = new ListBox();
-            _customHotkeyList.Location = new Point(18, 186);
+            _customHotkeyList.Location = new Point(18, 166);
             _customHotkeyList.Size = new Size(396, 44);
             _customHotkeyList.IntegralHeight = false;
             _customHotkeyList.HorizontalScrollbar = true;
@@ -221,7 +215,7 @@ namespace TokeIME
 
             Button addCustomButton = new Button();
             addCustomButton.Text = "Add Custom...";
-            addCustomButton.Location = new Point(430, 184);
+            addCustomButton.Location = new Point(430, 164);
             addCustomButton.Size = new Size(152, 27);
             addCustomButton.Click += delegate { AddCustomHotkey(); };
             shortcutsGroup.Controls.Add(addCustomButton);

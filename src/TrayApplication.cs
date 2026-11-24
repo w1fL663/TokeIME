@@ -29,7 +29,6 @@ namespace TokeIME
         private AutoAddPromptForm _autoAddPrompt;
         private SettingsForm _settingsForm;
         private bool _openSettingsOnFirstTick;
-        private bool _manualLocked;
         private string _matchedProcess;
         private bool _settingsOpen;
         private bool _menuOpen;
@@ -43,7 +42,6 @@ namespace TokeIME
             _autoAddSeenProcesses = CreateVisibleProcessBaseline();
             _keyboardLock = new KeyboardLock();
             _keyboardLock.UpdateOptions(_settings);
-            _keyboardLock.ToggleRequested += ToggleTokeEffect;
 
             bool ownsInactiveIcon;
             bool ownsActiveIcon;
@@ -285,56 +283,6 @@ namespace TokeIME
             }
             return null;
         }
-        private void ToggleTokeEffect()
-        {
-            bool effectActive = _manualLocked ||
-                (_settings.AutoLockEnabled && !string.IsNullOrEmpty(_matchedProcess));
-            bool enableEffect = !effectActive;
-
-            bool previousAutoLock = _settings.AutoLockEnabled;
-            bool previousManualLock = _manualLocked;
-            string previousMatchedProcess = _matchedProcess;
-
-            _settings.AutoLockEnabled = enableEffect;
-            _manualLocked = enableEffect;
-            if (!enableEffect)
-            {
-                _matchedProcess = null;
-            }
-
-            try
-            {
-                _settings.Save();
-            }
-            catch (Exception exception)
-            {
-                _settings.AutoLockEnabled = previousAutoLock;
-                _manualLocked = previousManualLock;
-                _matchedProcess = previousMatchedProcess;
-                MessageBox.Show(
-                    "Failed to save TokeIME effect state: \r\n" + exception.Message,
-                    "TokeIME",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                return;
-            }
-
-            if (_settingsForm != null && !_settingsForm.IsDisposed)
-            {
-                _settingsForm.SetAutoLockEnabled(enableEffect);
-            }
-
-            RefreshLockState();
-            if (enableEffect)
-            {
-                ToastForm.ShowFor(_settingsForm, "Effect Enabled", Color.FromArgb(22, 163, 74));
-            }
-            else
-            {
-                ToastForm.ShowFor(_settingsForm, "Effect Disabled", Color.FromArgb(71, 85, 105));
-            }
-        }
-
         private void AutoLockItemClick(object sender, EventArgs e)
         {
             bool previousValue = _settings.AutoLockEnabled;
@@ -369,7 +317,7 @@ namespace TokeIME
 
         private void RefreshLockState()
         {
-            bool shouldLock = _manualLocked || !string.IsNullOrEmpty(_matchedProcess);
+            bool shouldLock = !string.IsNullOrEmpty(_matchedProcess);
             _keyboardLock.IsLocked = shouldLock;
 
             _notifyIcon.Icon = shouldLock ? _activeIcon : _inactiveIcon;
@@ -377,9 +325,9 @@ namespace TokeIME
             _effectEnabledItem.Checked = _settings.AutoLockEnabled;
             UpdateMenuState();
 
-            string reason = _manualLocked
-                ? "Manual lock"
-                : (!string.IsNullOrEmpty(_matchedProcess) ? _matchedProcess : string.Empty);
+            string reason = string.IsNullOrEmpty(_matchedProcess)
+                ? string.Empty
+                : _matchedProcess;
             string tooltip = TruncateTooltip(
                 shouldLock
                     ? "TokeIME - Locked" + (string.IsNullOrEmpty(reason) ? string.Empty : "（" + reason + "）")
@@ -392,10 +340,10 @@ namespace TokeIME
 
         private void UpdateMenuState()
         {
-            bool locked = _manualLocked || !string.IsNullOrEmpty(_matchedProcess);
+            bool locked = !string.IsNullOrEmpty(_matchedProcess);
             if (locked)
             {
-                string detail = _manualLocked ? "Manual lock" : _matchedProcess;
+                string detail = _matchedProcess;
                 _statusItem.Text = "Status: Locked (" + detail + "）";
             }
             else

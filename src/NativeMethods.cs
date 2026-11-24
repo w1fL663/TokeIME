@@ -20,7 +20,6 @@ namespace TokeIME
         internal const int VK_SPACE = 0x20;
         internal const int VK_LWIN = 0x5B;
         internal const int VK_RWIN = 0x5C;
-        internal const int VK_F12 = 0x7B;
         internal const int VK_LSHIFT = 0xA0;
         internal const int VK_LCONTROL = 0xA2;
         internal const int VK_RCONTROL = 0xA3;

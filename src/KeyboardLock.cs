@@ -13,7 +13,6 @@ namespace TokeIME
         private IntPtr _hookHandle;
         private bool _disposed;
         private bool _isLocked;
-        private bool _toggleHotkeyDown;
 
         private bool _blockCtrlShift;
         private bool _blockAltShift;
@@ -26,7 +25,6 @@ namespace TokeIME
         private bool _altDown;
         private bool _winDown;
 
-        public event Action ToggleRequested;
 
         public KeyboardLock()
         {
@@ -126,11 +124,6 @@ namespace TokeIME
 
                     UpdateModifierState(virtualKey, keyDown, keyUp);
 
-                    if (HandleToggleHotkey(virtualKey, keyDown, keyUp))
-                    {
-                        return (IntPtr)1;
-                    }
-
                     if (_isLocked && (keyDown || keyUp) && ShouldBlock(virtualKey, keyDown))
                     {
                         return (IntPtr)1;
@@ -143,37 +136,6 @@ namespace TokeIME
             }
 
             return NativeMethods.CallNextHookEx(_hookHandle, nCode, wParam, lParam);
-        }
-
-        private bool HandleToggleHotkey(int virtualKey, bool keyDown, bool keyUp)
-        {
-            if (virtualKey != NativeMethods.VK_F12)
-            {
-                return false;
-            }
-
-            bool ctrlDown = NativeMethods.IsKeyDown(NativeMethods.VK_CONTROL);
-            bool altDown = NativeMethods.IsKeyDown(NativeMethods.VK_MENU);
-            bool isChord = ctrlDown && altDown;
-
-            if (keyDown && isChord)
-            {
-                bool firstPress = !_toggleHotkeyDown;
-                _toggleHotkeyDown = true;
-                if (firstPress && ToggleRequested != null)
-                {
-                    ToggleRequested();
-                }
-                return true;
-            }
-
-            if (keyUp && _toggleHotkeyDown)
-            {
-                _toggleHotkeyDown = false;
-                return true;
-            }
-
-            return false;
         }
 
         private bool ShouldBlock(int virtualKey, bool keyDown)

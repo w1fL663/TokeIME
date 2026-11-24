@@ -40,14 +40,8 @@ namespace TokeIME
             {
                 return VirtualKey > 0 &&
                        HasModifier &&
-                       !IsModifierKey(VirtualKey) &&
-                       !IsReservedToggleHotkey();
+                       !IsModifierKey(VirtualKey);
             }
-        }
-
-        public bool IsReservedToggleHotkey()
-        {
-            return Ctrl && Alt && !Shift && !Win && VirtualKey == (int)Keys.F12;
         }
 
         public HotkeyDefinition Clone()
