@@ -8,10 +8,9 @@ TokeIME is a Windows tray utility that blocks selected keyboard shortcuts while 
 
 - Automatic effect when a configured program is in the foreground
 - Add currently running programs from an icon list
-- Global search across running programs, Start Menu, Steam, Epic, and installed applications
+- Global search across running programs, Start Menu and installed applications
 - Desktop search for shortcuts and EXEs, including desktop folders
 - Custom blocked shortcuts with direct key capture, including Tab
-- Separate configuration and startup entry from the Chinese build
 - Dark or light system title bars follow the normal WinForms appearance
 - No DLL injection and no network access
 
