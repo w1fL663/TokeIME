@@ -11,7 +11,6 @@ TokeIME is a Windows tray utility that blocks selected keyboard shortcuts while 
 - Global search across running programs, Start Menu and installed applications
 - Desktop search for shortcuts and EXEs, including desktop folders
 - Custom blocked shortcuts with direct key capture, including Tab
-- Dark or light system title bars follow the normal WinForms appearance
 - No DLL injection and no network access
 
 ## Run
@@ -43,5 +42,4 @@ powershell -ExecutionPolicy Bypass -File .\build.ps1
 ## Notes
 
 - Added programs and custom shortcuts are stored locally.
-- The locked tray icon is `TrayIconActive.ico`.
-- The normal tray and executable icon is `TrayIcon.ico`.
+- It runs best in Win11.
