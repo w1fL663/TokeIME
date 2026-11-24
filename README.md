@@ -42,3 +42,4 @@ powershell -ExecutionPolicy Bypass -File .\build.ps1
 ## Notes
 
 - Added programs and custom shortcuts are stored locally.
+- It is recommended to use automatic search for desktop search, which is more accurate.
